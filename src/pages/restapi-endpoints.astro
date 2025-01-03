@@ -1,0 +1,100 @@
+---
+import { Image } from 'astro:assets';
+import astroSvg from '../assets/astro.svg';
+const brackets = '{ }';
+const idBrackets = '{id}';
+import '../styles/global.css';
+---
+
+<!-- TODO: Lots of refactoring, UI updates and APIs left to build -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Free REST APIs</title>
+    <meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="keywords" content="Free REST APIs">
+	<meta property="og:title" content="Home - Free REST APIs">
+	<meta property="og:description" content="{ } Free REST APIs">
+	<meta property="og:type" content="website">
+</head>
+<body>
+    <header>
+        <h1>{brackets} Free REST APIs</h1>
+    </header>
+    <main>
+        <p>Explore our API endpoints:</p>
+        <ul>
+            <li>
+                <div class="li-header">
+                    <span class="button">GET</span>
+                    <a id="apiLink" href="/api/1.json" target="_blank">/name/{idBrackets}</a>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="details">
+                    <h3>Description</h3>
+                    <p>This endpoint returns a sample API response for testing purposes.</p>
+                    <h3>Parameters</h3>
+                    <ul>
+                        <li><strong>id</strong> (integer): The ID of the resource.</li>
+                    </ul>
+                    <h3>Response</h3>
+                    <div class="pre-text">
+                        {'{"id":"0","name":"Sarah"}'}
+                    </div>
+                    <h3 class="test-h3">Test</h3>
+                    <div class="input-group">
+                        <label for="apiNumber">Select an number (0-3):</label>
+                        <div class="input-with-button">
+                            <input id="apiNumber" type="number" min="0" max="3" value="0">
+                            <button id="testButton">Test</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <span>Built with: </span>
+            <a href="https://astro.build" target="_blank" rel="noopener noreferrer">
+                <Image 
+                    src={astroSvg} 
+                    alt="Astro Logo" 
+                    class="astro-logo"
+                />
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const input = document.getElementById('apiNumber') as HTMLInputElement;
+        const link = document.getElementById('apiLink') as HTMLAnchorElement;
+        const toggleIcons = document.querySelectorAll('.toggle-icon');
+        const testButton = document.getElementById('testButton');
+
+        testButton!.addEventListener('click', () => {
+            const number = parseInt(input.value, 10);
+            if (number >= 0 && number <= 3) {
+                const url = `/api/${number}.json`; 
+                window.open(url, '_blank');
+            } else {
+                console.error('Something went wrong! Please try again.')
+            }
+        });
+
+        toggleIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                const target = e.target as HTMLElement;
+                const li = target.closest('li') as HTMLElement;
+                if (li) {
+                    const details = li.querySelector('.details') as HTMLElement;
+                    const isVisible = details.style.display === 'block';
+                    details.style.display = isVisible ? 'none' : 'block';
+                    target.textContent = isVisible ? '▼' : '▲';
+                }
+            });
+        });
+    </script>
+</body>
