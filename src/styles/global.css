@@ -161,12 +161,18 @@ footer {
     font-size: 0.9em;
     color: white;
     bottom: 20px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
 }
 
 .footer-container {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    margin: 0;
+    padding: 0;
 }
 
 .astro-svg {
@@ -225,5 +231,9 @@ footer {
 
     .input-group label {
         width: 200px;
+    }
+
+    .footer {
+        width: 100%;
     }
 }
