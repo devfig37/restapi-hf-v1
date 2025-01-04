@@ -5,11 +5,16 @@ const usernames = ["Sarah", "Chris", "Yan", "Elian"];
 export const GET: APIRoute = ({ params, request }) => {
   const id: any = params.id;
 
-  // Handle invalid ID gracefully
   if (!usernames[id]) {
     return new Response(
       JSON.stringify({ error: "User not found" }),
-      { status: 404, headers: { 'Content-Type': 'application/json' } }
+      { 
+        status: 404, 
+        headers: { 
+          'Content-Type': 'application/json',
+          'Content-Disposition': 'inline',
+        },
+      }
     );
   }
 
@@ -18,7 +23,12 @@ export const GET: APIRoute = ({ params, request }) => {
       id: id,
       name: usernames[id],
     }),
-    { headers: { 'Content-Type': 'application/json' } }
+    { 
+      headers: { 
+        'Content-Type': 'application/json',
+        'Content-Disposition': 'inline',
+      } 
+    }
   );
 };
 
