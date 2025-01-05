@@ -11,7 +11,13 @@ export const GET: APIRoute = ({ params, request }) => {
   const apiKey = request.headers.get('Authorization');
 
   if (!apiKey || !setAPIkey.includes(apiKey)) {
-    return new Response('Unauthorized', { status: 401 });
+    return new Response(
+      JSON.stringify({ error: "Unauthorized" }), 
+      { 
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
 
   const userAgent = request.headers.get('User-Agent') || '';

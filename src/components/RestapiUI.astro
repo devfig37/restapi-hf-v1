@@ -4,10 +4,6 @@ import astroSvg from '../assets/astro.svg';
 const brackets = '{ }';
 const idBrackets = '{id}';
 import '../styles/global.css';
-const response = await fetch('https://restapi-hf-v1.pages.dev/api/1');
-const data = await response.json();
-const randomUser = JSON.stringify(data);
-
 ---
 
 <!-- TODO: Lots of refactoring, UI updates and APIs left to build -->
@@ -45,8 +41,7 @@ const randomUser = JSON.stringify(data);
                     </ul>
                     <h3>Response</h3>
                     <div class="pre-text">
-                        <!-- {'{"id":"0","name":"Sarah"}'} -->
-                        {randomUser}
+                        {'{"id":"0","name":"Sarah"}'}
                     </div>
                     <h3 class="test-h3">Test</h3>
                     <div class="input-group">
