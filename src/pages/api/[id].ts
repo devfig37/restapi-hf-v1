@@ -1,8 +1,23 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 
 const usernames = ["Sarah", "Chris", "Yan", "Elian"];
 
 export const GET: APIRoute = ({ params, request }) => {
+
+  const userAgent = request.headers.get('User-Agent') || '';
+
+  if (/Mozilla|Chrome|Safari|Firefox|Edge/.test(userAgent)) {
+    return new Response(
+      JSON.stringify({ error: "This endpoint is not accessible from browsers." }),
+      {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+
   const id: any = params.id;
 
   if (!usernames[id]) {
@@ -12,7 +27,6 @@ export const GET: APIRoute = ({ params, request }) => {
         status: 404, 
         headers: { 
           'Content-Type': 'application/json',
-          'Content-Disposition': 'inline',
         },
       }
     );
@@ -26,7 +40,6 @@ export const GET: APIRoute = ({ params, request }) => {
     { 
       headers: { 
         'Content-Type': 'application/json',
-        'Content-Disposition': 'inline',
       } 
     }
   );
