@@ -1,10 +1,18 @@
 export const prerender = false;
 
+const setAPIkey = import.meta.env.API_KEY;
+
 import type { APIRoute } from 'astro';
 
 const usernames = ["Sarah", "Chris", "Yan", "Elian"];
 
 export const GET: APIRoute = ({ params, request }) => {
+
+  const apiKey = request.headers.get('Authorization');
+
+  if (!apiKey || !setAPIkey.includes(apiKey)) {
+    return new Response('Unauthorized', { status: 401 });
+  }
 
   const userAgent = request.headers.get('User-Agent') || '';
 
