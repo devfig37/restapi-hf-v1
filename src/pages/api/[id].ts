@@ -8,7 +8,7 @@ export const GET: APIRoute = ({ params, request }) => {
 
   const userAgent = request.headers.get('User-Agent') || '';
 
-  if (/Mozilla|Chrome|Safari|Firefox|Edge/.test(userAgent)) {
+  if (/Mozilla|Chrome|Safari|Firefox|Edge/.test(userAgent) && !/curl/.test(userAgent)) {
     return new Response(
       JSON.stringify({ error: "This endpoint is not accessible from browsers." }),
       {
