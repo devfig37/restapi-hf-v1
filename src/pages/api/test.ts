@@ -1,5 +1,18 @@
-export async function post({ request }: { request: Request }) {
+import type { APIRoute } from 'astro';
+
+export const POST: APIRoute = async ({ request }) => {
     const secret = process.env.API_SECRET;
+    const userAgent = request.headers.get('User-Agent') || '';
+
+    if (/Mozilla|Chrome|Safari|Firefox|Edge/.test(userAgent) && !/curl/.test(userAgent)) {
+      return new Response(
+        JSON.stringify({ error: "This endpoint is not accessible from browsers." }),
+        {
+          status: 403,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
   
     if (!secret) {
       return new Response("Server misconfiguration: API secret is missing", {
