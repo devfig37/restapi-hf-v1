@@ -1,5 +1,5 @@
 export const prerender = false;
-
+import { API_SECRET } from "astro:env/server";
 // const setAPIkey = import.meta.env.API_KEY;
 
 import type { APIRoute } from 'astro';
@@ -10,17 +10,15 @@ export const GET: APIRoute = ({ params, request }) => {
 
   const apiKey = request.headers.get('Authorization');
 
-  // TODO:
-
-  // if (!apiKey || !setAPIkey.includes(apiKey)) {
-  //   return new Response(
-  //     JSON.stringify({ error: "Unauthorized" }), 
-  //     { 
-  //       status: 401,
-  //       headers: { 'Content-Type': 'application/json' },
-  //     }
-  //   );
-  // }
+  if (!apiKey || !API_SECRET.includes(apiKey)) {
+    return new Response(
+      JSON.stringify({ error: "Unauthorized" }), 
+      { 
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
 
   const userAgent = request.headers.get('User-Agent') || '';
 
