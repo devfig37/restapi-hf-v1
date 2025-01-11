@@ -59,6 +59,38 @@ export const GET: APIRoute = ({ params, request }) => {
   );
 };
 
+export const POST: APIRoute = ({ params, request }) => {
+
+  const apiKey = request.headers.get('Authorization');
+
+  if (!apiKey || !API_SECRET.includes(apiKey)) {
+    return new Response(
+      JSON.stringify({ error: "Unauthorized" }), 
+      { 
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+
+  const userAgent = request.headers.get('User-Agent') || '';
+
+  if (/Mozilla|Chrome|Safari|Firefox|Edge/.test(userAgent) && !/curl/.test(userAgent)) {
+    return new Response(
+      JSON.stringify({ error: "This endpoint is not accessible from browsers." }),
+      {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
+
+  return new Response(JSON.stringify({
+      message: "This was a POST!"
+    })
+  )
+};
+
 export function getStaticPaths() {
   return [
     { params: { id: "0" } },
