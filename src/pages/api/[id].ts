@@ -83,12 +83,19 @@ export const POST: APIRoute = ({ params, request }) => {
         headers: { 'Content-Type': 'application/json' },
       }
     );
-  }
+  };
 
-  return new Response(JSON.stringify({
-      message: "This was a POST!"
-    })
-  )
+  const responseData = {
+    message: "This was a POST!",
+  };
+
+  return new Response(JSON.stringify(responseData), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
 };
 
 export function getStaticPaths() {
