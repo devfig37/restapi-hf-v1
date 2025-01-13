@@ -59,7 +59,7 @@ export const GET: APIRoute = ({ params, request }) => {
   );
 };
 
-export const POST: APIRoute = ({ params, request }) => {
+export const POST: APIRoute = async ({ params, request }) => {
 
   const apiKey = request.headers.get('Authorization');
 
@@ -84,18 +84,48 @@ export const POST: APIRoute = ({ params, request }) => {
       }
     );
   };
+  
+  try {
+    const body = await request.json();
+    const person = body.person;
 
-  const responseData = {
-    message: "This was a POST!",
+    if (!person) {
+      return new Response(
+        JSON.stringify({ error: "Missing 'person' key in request body." }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ person }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
+  } 
+  catch(error) {
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON in request body." }),
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
   };
-
-  return new Response(JSON.stringify(responseData), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    },
-  });
+  
 };
 
 export function getStaticPaths() {
