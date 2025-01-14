@@ -87,21 +87,22 @@ export const POST: APIRoute = async ({ params, request }) => {
   
   try {
     const body = await request.json();
-    const person = body.person;
-    const job = Array.isArray(body.jobs) && body.jobs.length > 0 ? body.jobs[0] : undefined;
 
-    if(!body) {
+    if (!body || Object.keys(body).length === 0) {
       return new Response(
-        JSON.stringify({ error: "Bad Request" }),
+        JSON.stringify({ error: "Request body is empty or missing." }),
         {
-          status: 500,
+          status: 400,
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
           },
         }
       );
-    }
+    };
+
+    const person = body.person;
+    const job = Array.isArray(body.jobs) && body.jobs.length > 0 ? body.jobs[0] : undefined;
     
     if (!person && !job) {
       return new Response(
@@ -132,7 +133,7 @@ export const POST: APIRoute = async ({ params, request }) => {
   } 
   catch(error) {
     return new Response(
-      JSON.stringify({ error: "Invalid JSON in request body." }),
+      JSON.stringify({ error: "Invalid or malformed JSON in request body." }),
       {
         status: 400,
         headers: {
