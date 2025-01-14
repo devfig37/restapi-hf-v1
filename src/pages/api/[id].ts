@@ -88,10 +88,11 @@ export const POST: APIRoute = async ({ params, request }) => {
   try {
     const body = await request.json();
     const person = body.person;
+    const job = Array.isArray(body.jobs) && body.jobs.length > 0 ? body.jobs[0] : undefined;
 
-    if (!person) {
+    if (!person && !job) {
       return new Response(
-        JSON.stringify({ error: "Missing 'person' key in request body." }),
+        JSON.stringify({ error: "Both 'person' and 'job' are missing from the request body." }),
         {
           status: 400,
           headers: {
@@ -100,10 +101,13 @@ export const POST: APIRoute = async ({ params, request }) => {
           },
         }
       );
-    }
+    };
 
     return new Response(
-      JSON.stringify({ person }),
+      JSON.stringify({
+        person: person || null,
+        job: job || null,
+      }),
       {
         status: 200,
         headers: {
@@ -125,7 +129,7 @@ export const POST: APIRoute = async ({ params, request }) => {
       }
     );
   };
-  
+
 };
 
 export function getStaticPaths() {
