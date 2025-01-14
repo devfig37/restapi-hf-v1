@@ -90,6 +90,19 @@ export const POST: APIRoute = async ({ params, request }) => {
     const person = body.person;
     const job = Array.isArray(body.jobs) && body.jobs.length > 0 ? body.jobs[0] : undefined;
 
+    if(!body) {
+      return new Response(
+        JSON.stringify({ error: "Bad Request" }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+    
     if (!person && !job) {
       return new Response(
         JSON.stringify({ error: "Both 'person' and 'job' are missing from the request body." }),
