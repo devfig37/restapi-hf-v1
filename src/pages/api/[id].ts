@@ -4,6 +4,17 @@ import { API_SECRET } from "astro:env/server";
 
 import type { APIRoute } from 'astro';
 
+interface Car {
+  name?: string;
+  models?: string[];
+}
+
+interface RequestBody {
+  person?: string;
+  jobs?: string[];
+  cars?: Car[];
+}
+
 const usernames = ["Sarah", "Chris", "Yan", "Elian"];
 
 export const GET: APIRoute = ({ params, request }) => {
@@ -103,25 +114,19 @@ export const POST: APIRoute = async ({ params, request }) => {
 
     const person = body.person;
     const job = Array.isArray(body.jobs) && body.jobs.length > 0 ? body.jobs[0] : undefined;
-    
-    if (!person && !job) {
-      return new Response(
-        JSON.stringify({ error: "Both 'person' and 'job' are missing from the request body." }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
-      );
-    };
+    const cars = Array.isArray(body.cars) 
+      ? body.cars.map((car: Car) => ({
+          name: car.name || null,
+          firstModel: Array.isArray(car.models) && car.models.length > 0 ? car.models[0] : null,
+        }))
+      : [];
 
-    return new Response(
-      JSON.stringify({
-        person: person || null,
-        job: job || null,
-      }),
+      return new Response(
+        JSON.stringify({
+          person: person,
+          job: job,
+          cars: cars,
+        }),
       {
         status: 200,
         headers: {
