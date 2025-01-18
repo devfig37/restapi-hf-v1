@@ -3,6 +3,17 @@ import { Image } from 'astro:assets';
 import astroSvg from '../assets/astro.svg';
 const brackets = '{ }';
 const idBrackets = '{id}';
+const postJSON = `
+{
+    "person": "John Doe",
+    "jobs": ["Developer", "Designer"],
+    "cars": [
+        {"name": "Ford", "models": ["Fiesta", "Focus", "Mustang"]},
+        {"name": "BMW", "models": ["320", "X3", "X5"]},
+        {"name": "Fiat", "models": ["500", "Panda"]}
+    ]
+}
+`;
 import '../styles/global.css';
 ---
 
@@ -49,6 +60,40 @@ import '../styles/global.css';
                         <div class="input-with-button">
                             <input id="apiNumber" type="number" min="0" max="3" value="0">
                             <button id="testButton">Test</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <div class="li-header">
+                    <span class="button-post">POST</span>
+                    <a id="apiLink" href="/api/1.json" target="_blank">/name/{idBrackets}</a>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="details">
+                    <h3>Description</h3>
+                    <p>This endpoint returns a sample API response for testing purposes.</p>
+                    <h3>Parameters</h3>
+                    <ul>
+                        <li><strong>id</strong> (integer): The ID of the resource.</li>
+                        <li><strong>body</strong> (json): The request body.</li>
+                    </ul>
+                    <h3>Response</h3>
+                    <div class="pre-text">
+                        <pre>
+                            <code>  
+                                {postJSON}
+                            </code>
+                        </pre>
+                    </div>
+                    <h3 class="test-h3">Test</h3>
+                    <div class="input-group">
+                        <label for="apiNumber">Add Post Body:</label>
+                        <div class="input-with-button">
+                            <textarea id="txtArea" rows="10" cols="60"></textarea>
+                            <button id="testButtonPost">Test</button>
                         </div>
                     </div>
                 </div>
