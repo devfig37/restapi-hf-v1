@@ -15,7 +15,7 @@ interface RequestBody {
   cars?: Car[];
 }
 
-const usernames = ["Sarah", "Chris", "Yan", "Elian", "LeBron", "Michael", "Willy", "Kelly"];
+const usernames = ["Sarah", "Chris", "Yan", "Elian", "LeBron", "Michael", "Willy", "Kelly", "Nolan"];
 
 export const GET: APIRoute = ({ params, request }) => {
 
@@ -161,5 +161,6 @@ export function getStaticPaths() {
     { params: { id: "5" } },
     { params: { id: "6" } },
     { params: { id: "7" } },
+    { params: { id: "8" } },
   ];
 };
