@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# in-progress files
+schema.sql
+.wrangler
+wrangler.toml
+src/pages/cloud.ts
+src/pages/hono.ts

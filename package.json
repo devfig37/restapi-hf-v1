@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.1.0",
-    "astro": "^5.1.2"
+    "astro": "^5.1.2",
+    "hono": "^4.6.19"
   }
 }
